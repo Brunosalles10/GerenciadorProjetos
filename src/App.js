@@ -5,6 +5,7 @@ import Navbar from "./components/layout/Navbar";
 import Contato from "./components/pages/Contato";
 import Home from "./components/pages/Home";
 import NovoProjeto from "./components/pages/NovoProjeto";
+import Projects from "./components/pages/Projects";
 import Projetos from "./components/pages/Projetos";
 import Sobre from "./components/pages/Sobre";
 
@@ -24,6 +25,8 @@ function App() {
           <Route path="/Novoprojeto" element={<NovoProjeto />} />
 
           <Route path="/Projetos" element={<Projetos />} />
+
+          <Route path="/Projects/:id" element={<Projects />} />
         </Routes>
       </Container>
 
