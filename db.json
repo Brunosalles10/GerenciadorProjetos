@@ -19,8 +19,15 @@
         "id": "2",
         "name": "Desenvolvimento"
       },
-      "cost": 0,
-      "services": []
+      "cost": 1000,
+      "services": [
+        {
+          "name": "limpeza",
+          "cost": "1000",
+          "description": "limpar ...",
+          "id": "4562c787-bbad-4590-964d-0db2ee6df986"
+        }
+      ]
     }
   ],
   "categories": [

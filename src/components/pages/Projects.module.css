@@ -35,6 +35,7 @@
   text-decoration: none;
   cursor: pointer;
   transition: 0.5s;
+  border: none;
   max-height: 40px;
 }
 

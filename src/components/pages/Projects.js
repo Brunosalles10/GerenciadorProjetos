@@ -5,6 +5,7 @@ import Container from "../layout/Container";
 import Loading from "../layout/Loading";
 import Message from "../layout/Menssage";
 import ProjetoForm from "../project/ProjetoForm";
+import ServiceCard from "../service/ServiceCard";
 import ServiceForm from "../service/ServiceForm";
 import styles from "./Projects.module.css";
 function Projects() {
@@ -14,6 +15,7 @@ function Projects() {
   const [mensagem, setMensagem] = useState("");
   const [Type, setType] = useState("");
   const [showServiceForm, setShowServiceForm] = useState(false);
+  const [services, setServices] = useState([]);
 
   const toggleProjectForm = () => {
     setShowProjectForm(!showProjectForm);
@@ -22,6 +24,30 @@ function Projects() {
   const toggleServiceForm = () => {
     setShowServiceForm(!showServiceForm);
   };
+
+  function removeService(id, cost) {
+    const servicesUpdated = project.services.filter(
+      (service) => service.id !== id
+    );
+    const projectUpdated = project;
+    projectUpdated.services = servicesUpdated;
+    projectUpdated.cost = parseFloat(projectUpdated.cost) - parseFloat(cost);
+    fetch(`http://localhost:5000/projects/${projectUpdated.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(projectUpdated),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setProject(projectUpdated);
+        setServices(servicesUpdated);
+        setMensagem("Serviço removido com sucesso");
+        setType("success");
+      })
+      .catch((err) => console.log(err));
+  }
 
   const createService = (project) => {
     setMensagem("");
@@ -57,6 +83,7 @@ function Projects() {
         setMensagem("Serviço adicionado com sucesso");
         setType("success");
         setProject(data);
+        setServices(data.services);
       })
       .catch((err) => console.log(err));
   };
@@ -155,7 +182,19 @@ function Projects() {
           </Container>
           <h2>Serviços</h2>
           <Container customClass="start">
-            <p>intens serviços</p>
+            {project.services.length > 0 &&
+              services.map((service) => (
+                <ServiceCard
+                  id={service.id}
+                  name={service.name}
+                  cost={service.cost}
+                  description={service.description}
+                  key={service.id}
+                  handleRemove={removeService}
+                />
+              ))}
+
+            {services.length === 0 && <p>Não há serviços cadastrados</p>}
           </Container>
         </div>
       ) : (
